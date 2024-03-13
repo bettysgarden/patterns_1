@@ -4,6 +4,10 @@ public abstract class Program
 {
     static void Main(string[] args)
     {
+        try
+        {
+            
+        
         // Creating shopping lists
         ShoppingList weeklyGroceries = ShoppingList.GetInstance("Продукты на неделю");
         ShoppingList partySupplies = ShoppingList.GetInstance("Список для вечеринки");
@@ -35,5 +39,13 @@ public abstract class Program
         partySupplies.ClearList();
         Console.WriteLine();
         partySupplies.PrintList(); // пусто
+        
+        ShoppingList max = ShoppingList.GetInstance("new"); // нельзя добавить
+
+        }
+        catch (InvalidOperationException ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
     }
 }

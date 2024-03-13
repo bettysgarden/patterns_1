@@ -2,38 +2,53 @@ namespace last_semester_labs;
 
 public class ShoppingList
 {
-    private string Name { get; }
-    private List<string> Items { get; }
+    private static readonly Dictionary<string, ShoppingList> instances = new Dictionary<string, ShoppingList>();
+    private static readonly int maxLists = 3; // Ограничение на количество списков покупок
+    private static int currentLists = 0;
+
+    public string Name { get; }
+
+    private List<string> items = new List<string>();
+    public IReadOnlyList<string> Items => items;
 
     // Приватный конструктор -- Singleton
     private ShoppingList(string name)
     {
         Name = name;
-        Items = new List<string>();
     }
 
     // Словарь чтобы хранить экземпляры
     private static readonly Dictionary<string, ShoppingList> ShoppingLists = new Dictionary<string, ShoppingList>();
 
+
+    // Получение экземпляра списка покупок по имени
     public static ShoppingList GetInstance(string name)
     {
-        if (!ShoppingLists.ContainsKey(name))
+        if (!instances.ContainsKey(name))
         {
-            ShoppingLists[name] = new ShoppingList(name);
+            if (currentLists < maxLists)
+            {
+                instances[name] = new ShoppingList(name);
+                currentLists++;
+            }
+            else
+            {
+                throw new InvalidOperationException("Достигнуто максимальное количество списков.");
+            }
         }
-        return ShoppingLists[name];
+        return instances[name];
     }
 
     // Метод для добавления 
     public void AddItem(string item)
     {
-        Items.Add(item);
+        items.Add(item);
     }
 
     // Метод для удаления позиций 
     public void RemoveItem(string item)
     {
-        Items.Remove(item);
+        items.Remove(item);
     }
 
     // Метод для соединения двух списков 
@@ -57,7 +72,7 @@ public class ShoppingList
     // Метод для очистки списка покупок
     public void ClearList()
     {
-        Items.Clear();
+        items.Clear();
     }
 
     // Метод для печати списка покупок
