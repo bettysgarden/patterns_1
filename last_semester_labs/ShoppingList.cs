@@ -51,24 +51,6 @@ public class ShoppingList
         items.Remove(item);
     }
 
-    // Метод для соединения двух списков 
-    public static ShoppingList MergeLists(string newListName, ShoppingList list1, ShoppingList list2)
-    {
-        ShoppingList mergedList = GetInstance(newListName);
-
-        foreach (var item in list1.Items)
-        {
-            mergedList.AddItem(item);
-        }
-
-        foreach (var item in list2.Items)
-        {
-            mergedList.AddItem(item);
-        }
-
-        return mergedList;
-    }
-
     // Метод для очистки списка покупок
     public void ClearList()
     {
