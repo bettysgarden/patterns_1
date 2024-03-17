@@ -36,6 +36,7 @@ public class ShoppingList
                 throw new InvalidOperationException("Достигнуто максимальное количество списков.");
             }
         }
+
         return instances[name];
     }
 
@@ -61,10 +62,37 @@ public class ShoppingList
     public void PrintList()
     {
         Console.WriteLine($"Список покупок: {Name}");
+        bool isEmpty = true;
         foreach (var item in Items)
         {
+            isEmpty = false;
             Console.WriteLine($"- {item}");
         }
+
+        if (isEmpty)
+            Console.WriteLine("<пусто>");
+        Console.WriteLine();
+    }
+
+    // Метод для удаления списка покупок
+    public static void RemoveList(string name)
+    {
+        if (instances.ContainsKey(name))
+        {
+            instances.Remove(name);
+            currentLists--;
+        }
+    }
+
+    // Метод для вывода всех существующих списков
+    public static void PrintAllLists()
+    {
+        Console.WriteLine("Существующие списки:");
+        foreach (var shoppingList in instances.Values)
+        {
+            Console.WriteLine($"- {shoppingList.Name}");
+        }
+
         Console.WriteLine();
     }
 }

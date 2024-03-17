@@ -6,36 +6,38 @@ public abstract class Program
     {
         try
         {
+            const string weeklyGroceriesStr = "Продукты на неделю";
+            const string partyShoppingListStr = "Список для вечеринки";
+
             Person wife = new Person("Маша");
-            Person husband = new Person("Маша");
-            
-            ShoppingList weeklyGroceries = ShoppingList.GetInstance("Продукты на неделю");
-            ShoppingList partySupplies = ShoppingList.GetInstance("Список для вечеринки");
-            ShoppingList weeklyGroceriesAgain = ShoppingList.GetInstance("Продукты на неделю"); // Должен вернуть уже созданный экземпляр 'weeklyGroceries'
+            Person husband = new Person("Джон");
+
+            ShoppingList weeklyGroceries = ShoppingList.GetInstance(weeklyGroceriesStr);
+            ShoppingList weeklyGroceriesAgain = ShoppingList.GetInstance(weeklyGroceriesStr); // Должен вернуть уже созданный экземпляр 'weeklyGroceries'
 
             // Заполняем списки покупок
-            weeklyGroceries.AddItem("Яблоки");
-            weeklyGroceries.AddItem("Хлеб");
-            partySupplies.AddItem("Воздушные шары");
-            partySupplies.AddItem("Чипсы");
+            wife.AddItemToList(weeklyGroceries, "Яблоки");
+            wife.AddItemToList(weeklyGroceriesStr, "Хлеб");
+            weeklyGroceries.PrintList();
+            
+            husband.AddItemToList(weeklyGroceriesStr, "Лимоны");
+            husband.AddItemToList(partyShoppingListStr, "Воздушные шары");
+            husband.AddItemToList(partyShoppingListStr, "Чипсы");
+
+            husband.ShowList(weeklyGroceriesAgain);
+            husband.ShowList(partyShoppingListStr);
+            
+            wife.GoShopping(weeklyGroceriesStr);
+            husband.GoShopping(partyShoppingListStr);
+            
+            weeklyGroceries.PrintList();
+            ShoppingList.GetInstance(partyShoppingListStr).PrintList();
+            
             weeklyGroceriesAgain.AddItem("Молоко"); // Должно добавиться в тот же список, что и продукты в начале
 
-            // Вывод
-            weeklyGroceries.PrintList();
-            partySupplies.PrintList();
-            weeklyGroceriesAgain.PrintList(); // 1 и 3 списки одинаковые, тк обращаются к одному объекту
-
-            // Удаление позиции в списке
-            weeklyGroceries.RemoveItem("Яблоки");
-            Console.WriteLine();
-            weeklyGroceries.PrintList(); // нет яблок
-
-            // Очистка списка покупок
-            partySupplies.ClearList();
-            Console.WriteLine();
-            partySupplies.PrintList(); // пусто
-        
-
+            ShoppingList.PrintAllLists();
+            ShoppingList.RemoveList(partyShoppingListStr);
+            ShoppingList.PrintAllLists();
         }
         catch (InvalidOperationException ex)
         {
